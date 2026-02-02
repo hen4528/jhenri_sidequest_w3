@@ -12,42 +12,45 @@
 // currentScreen === "start"
 function drawStart() {
   // Background colour for the start screen
-  background(180, 225, 220); // soft teal background
+  background(60, 40, 100); // dark purple background
 
   // ---- Title text ----
-  fill(30, 50, 60);
-  textSize(46);
+  fill(255, 220, 100);
+  textSize(56);
   textAlign(CENTER, CENTER);
-  text("Win or Lose", width / 2, 180);
+  text("MYSTERY", width / 2, 150);
 
-  // ---- Buttons (data only) ----
-  // These objects store the position/size/label for each button.
-  // Using objects makes it easy to pass them into drawButton()
-  // and also reuse the same information for hover checks.
-  const startBtn = {
+  textSize(48);
+  text("Detective", width / 2, 220);
+
+  // ---- Subtitle ----
+  fill(200, 180, 220);
+  textSize(20);
+  text("A branching detective story", width / 2, 280);
+
+  // ---- Level 1 Button ----
+  const level1Btn = {
     x: width / 2,
-    y: 320,
+    y: 400,
     w: 240,
     h: 80,
-    label: "START",
+    label: "LEVEL 1",
   };
 
   const instrBtn = {
     x: width / 2,
-    y: 430,
+    y: 520,
     w: 240,
     h: 80,
     label: "INSTRUCTIONS",
   };
 
   // Draw both buttons
-  drawButton(startBtn);
+  drawButton(level1Btn);
   drawButton(instrBtn);
 
   // ---- Cursor feedback ----
-  // If the mouse is over either button, show a hand cursor
-  // so the player knows it is clickable.
-  const over = isHover(startBtn) || isHover(instrBtn);
+  const over = isHover(level1Btn) || isHover(instrBtn);
   cursor(over ? HAND : ARROW);
 }
 
@@ -56,13 +59,15 @@ function drawStart() {
 // ------------------------------------------------------------
 // Called from main.js only when currentScreen === "start"
 function startMousePressed() {
-  // For input checks, we only need x,y,w,h (label is optional)
-  const startBtn = { x: width / 2, y: 320, w: 240, h: 80 };
-  const instrBtn = { x: width / 2, y: 430, w: 240, h: 80 };
+  const level1Btn = { x: width / 2, y: 400, w: 240, h: 80 };
+  const instrBtn = { x: width / 2, y: 520, w: 240, h: 80 };
 
-  // If START is clicked, go to the game screen
-  if (isHover(startBtn)) {
-    currentScreen = "game";
+  // If LEVEL 1 is clicked, go to the opening screen
+  if (isHover(level1Btn)) {
+    // Reset game state when starting a new game
+    gameState.tookKey = false;
+    gameState.foundDiary = false;
+    currentScreen = "opening";
   }
   // If INSTRUCTIONS is clicked, go to the instructions screen
   else if (isHover(instrBtn)) {
@@ -74,11 +79,13 @@ function startMousePressed() {
 // Keyboard input for the start screen
 // ------------------------------------------------------------
 // Provides keyboard shortcuts:
-// - ENTER starts the game
+// - ENTER starts level 1
 // - I opens instructions
 function startKeyPressed() {
   if (keyCode === ENTER) {
-    currentScreen = "game";
+    gameState.tookKey = false;
+    gameState.foundDiary = false;
+    currentScreen = "opening";
   }
 
   if (key === "i" || key === "I") {

@@ -5,124 +5,71 @@
 // 2) input handlers → what happens when the player clicks or presses keys
 // 3) helper functions specific to this screen
 
-// ------------------------------
-// Button data
-// ------------------------------
-// This object stores all the information needed to draw
-// and interact with the button on the game screen.
-// Keeping this in one object makes it easier to move,
-// resize, or restyle the button later.
-const gameBtn = {
-  x: 400, // x position (centre of the button)
-  y: 550, // y position (centre of the button)
-  w: 260, // width
-  h: 90, // height
-  label: "PRESS HERE", // text shown on the button
-};
-
-// ------------------------------
 // Main draw function for this screen
-// ------------------------------
 // drawGame() is called from main.js *only*
 // when currentScreen === "game"
 function drawGame() {
-  // Set background colour for the game screen
-  background(240, 230, 140);
+  background(120, 60, 80); // dark red-purple background
 
-  // ---- Title and instructions text ----
-  fill(0); // black text
-  textSize(32);
+  // ---- Title ----
+  fill(255, 180, 100);
+  textSize(48);
   textAlign(CENTER, CENTER);
-  text("Game Screen", width / 2, 160);
+  text("LIBRARY SEARCH", width / 2, 100);
 
-  textSize(18);
-  text(
-    "Click the button (or press ENTER) for a random result.",
-    width / 2,
-    210,
-  );
+  // ---- Story text ----
+  fill(220, 220, 200);
+  textSize(22);
+  textAlign(CENTER, TOP);
+  const storyText =
+    "You search the library carefully.\n\nYou find old books and dusty shelves,\nbut no diary...\n\nThe investigation hits a dead end!\nThe suspect's diary was in the living room.";
+  text(storyText, width / 2, 220, 560);
 
-  // ---- Draw the button ----
-  // We pass the button object to a helper function
-  drawGameButton(gameBtn);
+  // ---- Restart Button ----
+  const restartBtn = {
+    x: width / 2,
+    y: 650,
+    w: 240,
+    h: 80,
+    label: "RESTART LEVEL 1",
+  };
+
+  drawGameButton(restartBtn);
 
   // ---- Cursor feedback ----
-  // If the mouse is over the button, show a hand cursor
-  // Otherwise, show the normal arrow cursor
-  cursor(isHover(gameBtn) ? HAND : ARROW);
+  cursor(isHover(restartBtn) ? HAND : ARROW);
 }
 
-// ------------------------------
 // Button drawing helper
-// ------------------------------
-// This function is responsible *only* for drawing the button.
-// It does NOT handle clicks or game logic.
 function drawGameButton({ x, y, w, h, label }) {
   rectMode(CENTER);
 
-  // Check if the mouse is hovering over the button
-  // isHover() is defined in main.js so it can be shared
   const hover = isHover({ x, y, w, h });
 
   noStroke();
 
-  // Change button colour when hovered
-  // This gives visual feedback to the player
   fill(
     hover
-      ? color(180, 220, 255, 220) // lighter blue on hover
-      : color(200, 220, 255, 190), // normal state
+      ? color(255, 150, 100, 220) // warm on hover
+      : color(180, 100, 120, 200), // darker base
   );
 
-  // Draw the button rectangle
-  rect(x, y, w, h, 14); // last value = rounded corners
+  rect(x, y, w, h, 14);
 
-  // Draw the button text
-  fill(0);
-  textSize(28);
+  fill(255, 255, 255);
+  textSize(24);
   textAlign(CENTER, CENTER);
   text(label, x, y);
 }
 
-// ------------------------------
 // Mouse input for this screen
-// ------------------------------
-// This function is called from main.js
-// only when currentScreen === "game"
 function gameMousePressed() {
-  // Only trigger the outcome if the button is clicked
-  if (isHover(gameBtn)) {
-    triggerRandomOutcome();
-  }
-}
+  const restartBtn = { x: width / 2, y: 650, w: 240, h: 80 };
 
-// ------------------------------
-// Keyboard input for this screen
-// ------------------------------
-// Allows keyboard-only interaction (accessibility + design)
-function gameKeyPressed() {
-  // ENTER key triggers the same behaviour as clicking the button
-  if (keyCode === ENTER) {
-    triggerRandomOutcome();
-  }
-}
-
-// ------------------------------
-// Game logic: win or lose
-// ------------------------------
-// This function decides what happens next in the game.
-// It does NOT draw anything.
-function triggerRandomOutcome() {
-  // random() returns a value between 0 and 1
-  // Here we use a 50/50 chance:
-  // - less than 0.5 → win
-  // - 0.5 or greater → lose
-  //
-  // You can bias this later, for example:
-  // random() < 0.7 → 70% chance to win
-  if (random() < 0.5) {
-    currentScreen = "win";
-  } else {
-    currentScreen = "lose";
+  if (isHover(restartBtn)) {
+    // Reset game state and go back to opening
+    gameState.tookKey = false;
+    gameState.foundDiary = false;
+    currentScreen = "opening";
   }
 }

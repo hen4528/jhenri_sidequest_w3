@@ -7,12 +7,13 @@ GBDA302 Week 3 Example 1: Instructions Screen with Back button
 ## Authors
 
 Karen Cochrane and David Han
+Edited by Jasmine Henri
 
 ---
 
 ## Description
 
-This p5.js project demonstrates a simple multi-screen game structure using a state-based approach. The example includes a start screen, an instructions screen with a back button, a basic game screen, and win/lose outcome screens. The focus is on showing how to separate screens into different files, route input based on the current game state, and design simple UI elements such as buttons and keyboard controls.
+This p5.js project demonstrates a simple multi-screen game structure using a state-based approach. The update code is a mystery games that gives you choices to determine the fate of the case. The opening page allows you to review the instructions or start Level 1. The game takes you through multiple clue screens until reaching the end which will tell you if you won or lost and will return you back to the main screen. By simply pressing one of the two buttons on each screen, the user choices if they win or lose the game.
 
 ---
 
@@ -35,5 +36,6 @@ N/A
 ## GenAI
 
 The code was written by Dr. Karen Cochrane but she used GenAI to write the comments.
+The code was edited by Jasmine by using the Visual Studio Code 6 Chatbot.
 
 ---

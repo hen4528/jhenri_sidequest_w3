@@ -21,7 +21,13 @@
 //
 // We store the “name” of the current screen as a string.
 // Only one screen should be active at a time.
-let currentScreen = "start"; // "start" | "instr" | "game" | "win" | "lose"
+let currentScreen = "start"; // "start" | "instr" | "game" | "opening" | "clueOne" | "clueTwo" | "level2" | "win" | "lose"
+
+// Track game state for decision branching
+let gameState = {
+  tookKey: false, // Did player take the key in Clue One?
+  foundDiary: false, // Did player find the diary in Clue Two?
+};
 
 // ------------------------------
 // setup() runs ONCE at the beginning
@@ -45,12 +51,20 @@ function draw() {
   //   start.js         → drawStart()
   //   instructions.js  → drawInstr()
   //   game.js          → drawGame()
+  //   opening.js       → drawOpening()
+  //   clueOne.js       → drawClueOne()
+  //   clueTwo.js       → drawClueTwo()
+  //   level2.js        → drawLevel2()
   //   win.js           → drawWin()
   //   lose.js          → drawLose()
 
   if (currentScreen === "start") drawStart();
   else if (currentScreen === "instr") drawInstr();
   else if (currentScreen === "game") drawGame();
+  else if (currentScreen === "opening") drawOpening();
+  else if (currentScreen === "clueOne") drawClueOne();
+  else if (currentScreen === "clueTwo") drawClueTwo();
+  else if (currentScreen === "level2") drawLevel2();
   else if (currentScreen === "win") drawWin();
   else if (currentScreen === "lose") drawLose();
 
@@ -70,14 +84,20 @@ function mousePressed() {
   // start.js         → startMousePressed()
   // instructions.js  → instrMousePressed()
   // game.js          → gameMousePressed()
+  // opening.js       → openingMousePressed()
+  // clueOne.js       → clueOneMousePressed()
+  // clueTwo.js       → clueTwoMousePressed()
+  // level2.js        → level2MousePressed()
   // win.js           → winMousePressed()
   // lose.js          → loseMousePressed()
 
   if (currentScreen === "start") startMousePressed();
   else if (currentScreen === "instr") instrMousePressed();
   else if (currentScreen === "game") gameMousePressed();
-  // The ?.() means “call this function only if it exists”
-  // This prevents errors if a screen doesn’t implement a handler.
+  else if (currentScreen === "opening") openingMousePressed();
+  else if (currentScreen === "clueOne") clueOneMousePressed();
+  else if (currentScreen === "clueTwo") clueTwoMousePressed();
+  else if (currentScreen === "level2") level2MousePressed?.();
   else if (currentScreen === "win") winMousePressed?.();
   else if (currentScreen === "lose") loseMousePressed?.();
 }
@@ -91,12 +111,20 @@ function keyPressed() {
   // start.js         → startKeyPressed()
   // instructions.js  → instrKeyPressed()
   // game.js          → gameKeyPressed()
+  // opening.js       → openingKeyPressed()
+  // clueOne.js       → clueOneKeyPressed()
+  // clueTwo.js       → clueTwoKeyPressed()
+  // level2.js        → level2KeyPressed()
   // win.js           → winKeyPressed()
   // lose.js          → loseKeyPressed()
 
   if (currentScreen === "start") startKeyPressed();
   else if (currentScreen === "instr") instrKeyPressed();
   else if (currentScreen === "game") gameKeyPressed?.();
+  else if (currentScreen === "opening") openingKeyPressed?.();
+  else if (currentScreen === "clueOne") clueOneKeyPressed?.();
+  else if (currentScreen === "clueTwo") clueTwoKeyPressed?.();
+  else if (currentScreen === "level2") level2KeyPressed?.();
   else if (currentScreen === "win") winKeyPressed?.();
   else if (currentScreen === "lose") loseKeyPressed?.();
 }
